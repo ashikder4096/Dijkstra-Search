@@ -49,6 +49,12 @@ public class Node implements Comparable{
         this.cities = stationName;
         this.children = children;
     }
+	
+	public Node(String stationName, ArrayList<Node> children, int index){
+        this.cities = stationName;
+        this.children = children;
+        this.index = index;
+    }
     
     public void addChild(Node child)
     {
