@@ -10,34 +10,33 @@ public class DijkstraSearch extends AbstractSearch{
 	PriorityQueue<Node> queue = new PriorityQueue<>();
 	ArrayList<Node> explored = new ArrayList<>();
 	
-	public DijkstraSearch(Node startNode, Node goalNode) {
+	public DijkstraSearch(Node startNode, Node goalNode) { 
 		super(startNode, goalNode);
 		startNode.setMinDistance(0);
-		queue.add(startNode);
+		queue.add(startNode); //will initialize with startNode being added to the queue
 		// TODO Auto-generated constructor stub
 	}
 
 	public boolean search(){
 		while(!queue.isEmpty()){
 			Node parent = queue.remove(); //takes out the node
+			explored.add(parent); //adds the current node to explored
 			
-			if(parent.equals(goalNode))
+			if(parent.equals(goalNode)) //if the goal is found
 			{
-				explored.add(parent);
-				printExplored();
+				printExplored(); //displays the path
 				System.out.println("Dijkstra Search Path Found!");
 				return true;
 			}
 			else
 			{
-				explored.add(parent);
 				for(int i = 0 ; i < parent.getChildren().size() ; i++)
 				{
 					if(!queue.contains(parent.getChildren().get(i)) && !explored.contains(parent.getChildren().get(i)))
 					{
-						parent.getChildren().get(i).setParent(parent);
-						parent.getChildren().get(i).setMinDistance(parent.getMinDistance() + parent.getChildrenCost().get(i));
-						queue.add(parent.getChildren().get(i));
+						parent.getChildren().get(i).setParent(parent); //sets node's parent
+						parent.getChildren().get(i).setMinDistance(parent.getMinDistance() + parent.getChildrenCost().get(i)); //sets the distance
+						queue.add(parent.getChildren().get(i)); //adds to queue
 					}
 				}
 			}
@@ -47,12 +46,12 @@ public class DijkstraSearch extends AbstractSearch{
 	}
 
 	private void printExplored() {
-		System.out.print("[");
-		for(int i = 0 ; i < explored.size() - 1 ; i++)
+		System.out.print("["); //starts with open bracket
+		for(int i = 0 ; i < explored.size() - 1 ; i++) //goes till second to last one
 		{
 			System.out.print(explored.get(i) +  ", ");
 		}
-		System.out.print(explored.get(explored.size() - 1) + "]");
+		System.out.print(explored.get(explored.size() - 1) + "]"); //adds the last entry
 		System.out.println();
 		
 	}

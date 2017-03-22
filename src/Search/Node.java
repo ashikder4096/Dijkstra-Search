@@ -57,7 +57,7 @@ public class Node implements Comparable{
 //        this.index = index;
 //    }
     
-    public void addChild(Node child, int cost)
+    public void addChild(Node child, int cost) //From the parents node, takes the child node nd it's cost
     {
     	children.add(child);
     	childrenCost.add(cost);
