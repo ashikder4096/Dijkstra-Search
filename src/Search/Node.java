@@ -15,7 +15,8 @@ public class Node implements Comparable{
     public String cities;
     //    An arraylist containing a list of Nodes that
 //    This node is directly connected to - It's child nodes.
-    private ArrayList<Node> children = new ArrayList<>();
+    private ArrayList<Node> children = new ArrayList<>(); 
+    private ArrayList<Integer> childrenCost = new ArrayList<>(); //acts as the row for the adjMatrix
     private int minDistance = Integer.MAX_VALUE, index = -1;
     private Node parent;
 
@@ -50,23 +51,33 @@ public class Node implements Comparable{
         this.children = children;
     }
 	
-	public Node(String stationName, ArrayList<Node> children, int index){
-        this.cities = stationName;
-        this.children = children;
-        this.index = index;
-    }
+//	public Node(String stationName, ArrayList<Node> children, int index){
+//        this.cities = stationName;
+//        this.children = children;
+//        this.index = index;
+//    }
     
-    public void addChild(Node child)
+    public void addChild(Node child, int cost)
     {
     	children.add(child);
+    	childrenCost.add(cost);
     }
 
     public void setCities(String cities) {
 		this.cities = cities;
 	}
 
-	public void setChildren(ArrayList<Node> children) {
+	public void setChildren(ArrayList<Node> children, ArrayList<Integer> cost) {
 		this.children = children;
+		setChildrenCost(cost);
+	}
+
+	public ArrayList<Integer> getChildrenCost() {
+		return childrenCost;
+	}
+
+	public void setChildrenCost(ArrayList<Integer> childrenCost) {
+		this.childrenCost = childrenCost;
 	}
 
 	public ArrayList<Node> getChildren(){
