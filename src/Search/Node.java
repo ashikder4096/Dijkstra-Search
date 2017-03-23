@@ -17,7 +17,7 @@ public class Node implements Comparable{
 //    This node is directly connected to - It's child nodes.
     private ArrayList<Node> children = new ArrayList<>(); 
     private ArrayList<Integer> childrenCost = new ArrayList<>(); //acts as the row for the adjMatrix
-    private int minDistance = Integer.MAX_VALUE, index = -1;
+    private int minDistance = Integer.MAX_VALUE;
     private Node parent;
 
     public int getMinDistance() {
@@ -26,16 +26,6 @@ public class Node implements Comparable{
 
 	public void setMinDistance(int minDistance) {
 		this.minDistance = minDistance;
-	}
-	
-	public void setIndex(int index)
-	{
-		this.index = index;
-	}
-	
-	public int getIndex()
-	{
-		return index;
 	}
 
 	public Node getParent() {

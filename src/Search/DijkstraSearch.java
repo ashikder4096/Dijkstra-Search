@@ -14,6 +14,7 @@ public class DijkstraSearch extends AbstractSearch{
 		super(startNode, goalNode);
 		startNode.setMinDistance(0);
 		queue.add(startNode); //will initialize with startNode being added to the queue
+		startNode.setParent(null);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -24,7 +25,7 @@ public class DijkstraSearch extends AbstractSearch{
 			
 			if(parent.equals(goalNode)) //if the goal is found
 			{
-				printExplored(); //displays the path
+				printPath(goalNode); //displays the path
 				System.out.println("Dijkstra Search Path Found!");
 				return true;
 			}
@@ -45,15 +46,14 @@ public class DijkstraSearch extends AbstractSearch{
 		return false; 
 	}
 
-	private void printExplored() {
-		System.out.print("["); //starts with open bracket
-		for(int i = 0 ; i < explored.size() - 1 ; i++) //goes till second to last one
+	private void printPath(Node goal) {
+		while(goal.getParent() != null)
 		{
-			System.out.print(explored.get(i) +  ", ");
+			System.out.print(goal + " <--- ");
+			goal = goal.getParent();
 		}
-		System.out.print(explored.get(explored.size() - 1) + "]"); //adds the last entry
+		System.out.print(goal);
 		System.out.println();
-		
 	}
 	
 }
