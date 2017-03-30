@@ -145,10 +145,4 @@ public class Node implements Comparable{
 		return Math.sqrt((posX - n.getPosX())*(posX - n.getPosX()) + (posY - n.getPosY())*(posY - n.getPosY()));
 	}
 
-	
-//	public int compareTo(Object o) {
-//		// TODO Auto-generated method stub
-//		Node = (Node)o;
-//	}
-
 }
