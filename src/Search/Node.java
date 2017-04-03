@@ -20,6 +20,18 @@ public class Node implements Comparable<Node>{
     private int posX, posY;
     private double disFromGoal, disFromStart, cost;
     private Node parent;
+    
+	public Node(String stationName, ArrayList<Node> children){
+        this.cities = stationName;
+        this.children = children;
+    }
+	
+	public Node(String stationName, ArrayList<Node> children, int x, int y){
+        this.cities = stationName;
+        this.children = children;
+        posX = x;
+        posY = y;
+    }
 
     public int getPosX() {
 		return posX;
@@ -60,11 +72,6 @@ public class Node implements Comparable<Node>{
 	public void setParent(Node parent) {
 		this.parent = parent;
 	}
-
-	public Node(String stationName, ArrayList<Node> children){
-        this.cities = stationName;
-        this.children = children;
-    }
 	
 //	public Node(String stationName, ArrayList<Node> children, int index){
 //        this.cities = stationName;
