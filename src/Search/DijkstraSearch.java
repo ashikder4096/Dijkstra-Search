@@ -12,7 +12,7 @@ public class DijkstraSearch extends AbstractSearch{
 	
 	public DijkstraSearch(Node startNode, Node goalNode) { 
 		super(startNode, goalNode);
-		startNode.setMinDistance(0);
+		startNode.setDisFromStart(0);
 		queue.add(startNode); //will initialize with startNode being added to the queue
 		startNode.setParent(null);
 		// TODO Auto-generated constructor stub
@@ -36,7 +36,7 @@ public class DijkstraSearch extends AbstractSearch{
 					if(!queue.contains(parent.getChildren().get(i)) && !explored.contains(parent.getChildren().get(i)))
 					{
 						parent.getChildren().get(i).setParent(parent); //sets node's parent
-						parent.getChildren().get(i).setMinDistance(parent.getMinDistance() + parent.getChildrenCost().get(i)); //sets the distance
+						parent.getChildren().get(i).setDisFromStart(parent.getDisFromStart() + parent.getChildrenCost().get(i)); //sets the distance
 						queue.add(parent.getChildren().get(i)); //adds to queue
 					}
 				}
