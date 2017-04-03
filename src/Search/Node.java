@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * As well as an ArrayList of nodes that will store
  * any instantiated nodes children.
  */
-public class Node implements Comparable{
+public class Node implements Comparable<Node>{
 
     //    A Unique Identifier for our node
     public String cities;
@@ -119,30 +119,21 @@ public class Node implements Comparable{
     {
     	return cities;
     }
-    
-    @Override
-    /**
-     * 
-     * @param arg0 compared node
-     * @return positive if this is greater, negative is this is less, 0 if they are equal
-     */
-	public int compareTo(Object arg0) {
-		return (int) (this.cost - ((Node) arg0).getCost());
-	}
 
 	private double getCost() {
 		// TODO Auto-generated method stub
 		return cost;
 	}
 	
-	private void setCost(double cost) {
+	private void setCost() {
 		// TODO Auto-generated method stub
-		this.cost = cost;
+		cost = disFromStart + disFromGoal;
 	}
-	
-	private double distanceFrom (Node n)
-	{
-		return Math.sqrt((posX - n.getPosX())*(posX - n.getPosX()) + (posY - n.getPosY())*(posY - n.getPosY()));
+
+	@Override
+	public int compareTo(Node arg0) {
+		// TODO Auto-generated method stub
+		return (int) (this.cost - arg0.getCost());
 	}
 
 }
