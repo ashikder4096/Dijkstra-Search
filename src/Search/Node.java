@@ -17,7 +17,6 @@ public class Node implements Comparable<Node>{
     //    This node is directly connected to - It's child nodes.
     private ArrayList<Node> children = new ArrayList<>(); 
     private ArrayList<Integer> childrenCost = new ArrayList<>(); //acts as the row for the adjMatrix
-    private int minDistance = Integer.MAX_VALUE;
     private int posX, posY;
     private double disFromGoal, disFromStart, cost;
     private Node parent;
@@ -52,14 +51,6 @@ public class Node implements Comparable<Node>{
 
 	public void setDisFromStart(double disFromStart) {
 		this.disFromStart = disFromStart;
-	}
-
-	public int getMinDistance() {
-		return minDistance;
-	}
-
-	public void setMinDistance(int minDistance) {
-		this.minDistance = minDistance;
 	}
 
 	public Node getParent() {
@@ -120,12 +111,17 @@ public class Node implements Comparable<Node>{
     	return cities;
     }
 
-	private double getCost() {
+	public double getCost() {
 		// TODO Auto-generated method stub
 		return cost;
 	}
 	
-	private void setCost() {
+	public double distanceFrom(Node n)
+	{
+		return Math.sqrt((n.getPosX() -posX)*(n.getPosX() - posX) + (n.getPosY() - posY)*(n.getPosY() - posY));
+	}
+	
+	public void setCost() {
 		// TODO Auto-generated method stub
 		cost = disFromStart + disFromGoal;
 	}
