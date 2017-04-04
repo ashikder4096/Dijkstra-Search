@@ -135,7 +135,7 @@ public class Node implements Comparable<Node>{
 	
 	public double distanceFrom(Node n)
 	{
-		return Math.sqrt((n.getPosX() -posX)*(n.getPosX() - posX) + (n.getPosY() - posY)*(n.getPosY() - posY));
+		return Math.sqrt((n.getPosX() - posX)*(n.getPosX() - posX) + (n.getPosY() - posY)*(n.getPosY() - posY));
 	}
 	
 	public void setCost() {
@@ -146,7 +146,9 @@ public class Node implements Comparable<Node>{
 	@Override
 	public int compareTo(Node arg0) {
 		// TODO Auto-generated method stub
-		return (int) (this.cost - arg0.getCost());
+		this.setCost();
+		arg0.setCost();
+		return (int)Double.compare(this.getCost() , arg0.getCost());
 	}
 
 }

@@ -17,6 +17,8 @@ public class AStar extends AbstractSearch{
         	{1,1,0,1,0,1,0,1},
         	{1,1,1,1,0,1,1,1},
         };
+        PriorityQueue<Node> q = new PriorityQueue<>();
+        
         Node start = new Node(0,0);
         Node goal = new Node(7,7);
         AStar aStar = new AStar(start, goal, graph);
@@ -27,17 +29,30 @@ public class AStar extends AbstractSearch{
         System.out.println(n.distanceFrom(start));
         System.out.println(n.distanceFrom(goal));
         n.setCost();
-        System.out.println(n2.distanceFrom(start));
-        System.out.println(n2.distanceFrom(goal));
-        n2.setCost();
-        System.out.println(n.getCost());
-        System.out.println(n2.getCost());
-        System.out.println(n2.compareTo(n));
-        
+//        System.out.println(n2.distanceFrom(start));
+//        System.out.println(n2.distanceFrom(goal));
+//        n2.setCost();
+//        System.out.println(n.getCost());
+//        System.out.println(n2.getCost());
+//        System.out.println(n2.compareTo(n));
+//      
         aStar.setNodeChildren(n);
-        for(Node x : n.getChildren())
+        for(Node child : n.getChildren())
         {
-        	System.out.println(x);
+        	if(child != null)
+        	{
+        		q.add(child);
+        		System.out.println(child);
+        	}
+        }
+        System.out.println();
+        while(!q.isEmpty())
+        {
+        	Node re = q.remove();
+        	re.setDisFromGoal(re.distanceFrom(goal));
+        	re.setDisFromStart(re.distanceFrom(start));
+        	re.setCost();
+        	System.out.println(re + " " + re.getCost());
         }
 	}
 	
