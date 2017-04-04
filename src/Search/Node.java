@@ -89,6 +89,11 @@ public class Node implements Comparable<Node>{
     	children.add(child);
     	childrenCost.add(cost);
     }
+    
+    public void addChild(Node child) //Used only to see if a node is connected in AStar
+    {
+    	children.add(child);
+    }
 
     public void setCities(String cities) {
 		this.cities = cities;
