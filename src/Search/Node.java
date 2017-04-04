@@ -32,6 +32,11 @@ public class Node implements Comparable<Node>{
         posX = x;
         posY = y;
     }
+	
+	public Node(int x, int y){
+        posX = x;
+        posY = y;
+    }
 
     public int getPosX() {
 		return posX;
