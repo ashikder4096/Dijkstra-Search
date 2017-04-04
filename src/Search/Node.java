@@ -125,7 +125,7 @@ public class Node implements Comparable<Node>{
     
     public String toString()
     {
-    	return cities;
+    	return "(" + posX + posY + ")";
     }
 
 	public double getCost() {

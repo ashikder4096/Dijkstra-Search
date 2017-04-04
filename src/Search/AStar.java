@@ -6,9 +6,68 @@ import java.util.PriorityQueue;
 
 public class AStar extends AbstractSearch{
 
+	public static void main(String[] args) {
+        int[][] graph = new int[][] {
+        	{1,1,1,1,0,1,1,1},
+        	{1,1,0,1,0,1,0,1},
+        	{1,1,0,1,1,1,0,1},
+        	{1,1,0,1,0,0,0,1},
+        	{1,1,0,1,0,1,0,1},
+        	{1,1,0,1,1,1,0,1},
+        	{1,1,0,1,0,1,0,1},
+        	{1,1,1,1,0,1,1,1},
+        };
+        Node start = new Node(0,0);
+        Node goal = new Node(7,7);
+        AStar aStar = new AStar(start, goal, graph);
+        
+        Node n = aStar.getGrid()[2][3];
+        Node n2 = aStar.getGrid()[3][3];
+        
+        System.out.println(n.distanceFrom(start));
+        System.out.println(n.distanceFrom(goal));
+        n.setCost();
+        System.out.println(n2.distanceFrom(start));
+        System.out.println(n2.distanceFrom(goal));
+        n2.setCost();
+        System.out.println(n.getCost());
+        System.out.println(n2.getCost());
+        System.out.println(n2.compareTo(n));
+        
+        aStar.setNodeChildren(n);
+        for(Node x : n.getChildren())
+        {
+        	System.out.println(x);
+        }
+	}
+	
+	public PriorityQueue<Node> getQueue() {
+		return queue;
+	}
+
+	public void setQueue(PriorityQueue<Node> queue) {
+		this.queue = queue;
+	}
+
+	public ArrayList<Node> getExplored() {
+		return explored;
+	}
+
+	public void setExplored(ArrayList<Node> explored) {
+		this.explored = explored;
+	}
+
+	public Node[][] getGrid() {
+		return grid;
+	}
+
+	public void setGrid(Node[][] grid) {
+		this.grid = grid;
+	}
+
 	PriorityQueue<Node> queue = new PriorityQueue<>();
 	ArrayList<Node> explored = new ArrayList<>();
-	Node[][] grid;
+	Node[][] grid; //flipped x and y coordinate
 	
 	public AStar(Node startNode, Node goalNode, int[][] map) {
 		super(startNode, goalNode);
@@ -34,48 +93,58 @@ public class AStar extends AbstractSearch{
 			{
 				if(grid[i][j] !=startNode && grid[i][j] != goalNode && map[i][j] == 1) //populates the grid with nodes if the map is indicated with a 1 
 				{
-					grid[i][j] = new Node(i,j);
-					grid[i][j].setDisFromStart(startNode.distanceFrom(startNode));
-					grid[i][j].setDisFromGoal(startNode.distanceFrom(goalNode));
-					grid[i][j].setCost();					
+					grid[i][j] = new Node(i,j);				
 				}
 			}
 		}
 		
 		//Setting children
-		for(int i = 1 ; i < grid.length - 1 ; i++) //excludes first and last row
-		{
-			for(int j = 0 ; j < map[i].length - 1 ; j ++)
-			{
-				if(map[i][j] == 1) //populates the grid with nodes if the map is indicated with a 1 
-				{
-					if(map[i][j+1] == 1) //horizontal
-					{
-						grid[i][j].addChild(grid[i][j+1]);
-						grid[i][j+1].addChild(grid[i][j]);
-					}
-					if(map[i+1][j] == 1) //verticle
-					{
-						grid[i][j].addChild(grid[i+1][j]);
-						grid[i+1][j].addChild(grid[i][j]);
-					}
-				}
-			}
-		}
-		for(int i = 0 ; i < map[0].length - 1 ; i++) //first row
-		{
-			grid[0][i].addChild(grid[0][i+1]);
-			grid[0][i+1].addChild(grid[0][i]);
-		}
-		for(int i = 0 ; i < map[map.length-1].length - 1 ; i++) //last row
-		{
-			grid[map.length-1][i].addChild(grid[0][i+1]);
-			grid[map.length-1][i+1].addChild(grid[0][i]);
-		}
+//		for(int i = 1 ; i < grid.length - 1 ; i++) //excludes first and last row
+//		{
+//			for(int j = 0 ; j < map[i].length - 1 ; j ++)
+//			{
+//				if(map[i][j] == 1) //populates the grid with nodes if the map is indicated with a 1 
+//				{
+//					if(map[i][j+1] == 1) //horizontal
+//					{
+//						grid[i][j].addChild(grid[i][j+1]);
+//						grid[i][j+1].addChild(grid[i][j]);
+//					}
+//					if(map[i+1][j] == 1) //verticle
+//					{
+//						grid[i][j].addChild(grid[i+1][j]);
+//						grid[i+1][j].addChild(grid[i][j]);
+//					}
+//				}
+//			}
+//			if(map[i+1][map[i].length-1] == 1) //verticle
+//			{
+//				grid[i][map[i].length-1].addChild(grid[i+1][map[i].length-1]);
+//				grid[i+1][map[i].length-1].addChild(grid[i][map[i].length-1]);
+//			}
+//		}
+//		for(int i = 0 ; i < map[0].length - 1 ; i++) //first row
+//		{
+//			if(map[0][i] == 1 && map[0][i+1] == 1) //horizontal
+//			{
+//				grid[0][i].addChild(grid[i][i+1]);
+//				grid[0][i+1].addChild(grid[i][i]);
+//			}
+//		}
+//		for(int i = 0 ; i < map[map.length-1].length - 1 ; i++) //last row
+//		{
+//			if(map[0][i] == 1 && map[0][i+1] == 1) //horizontal
+//			{
+//				grid[map.length-1][i].addChild(grid[0][i+1]);
+//				grid[map.length-1][i+1].addChild(grid[0][i]);
+//			}
+//		}
 		
 		//add the first node to the queue
+//		setNodeChildren(startNode);
 		queue.add(startNode); //will initialize with startNode being added to the queue
 		startNode.setParent(null);
+		printList(grid);
 	}
 	
 	public boolean search(){
@@ -86,18 +155,26 @@ public class AStar extends AbstractSearch{
 			if(parent.equals(goalNode)) //if the goal is found
 			{
 				printPath(goalNode); //displays the path
-				System.out.println("Dijkstra Search Path Found!");
+				System.out.println("AStar Search Path Found!");
 				return true;
 			}
 			else
 			{
+				setNodeChildren(parent);
 				for(int i = 0 ; i < parent.getChildren().size() ; i++)
 				{
-					if(!queue.contains(parent.getChildren().get(i)) && !explored.contains(parent.getChildren().get(i)))
+					Node child = parent.getChildren().get(i);
+					if(child != null)
 					{
-						parent.getChildren().get(i).setParent(parent); //sets node's parent
-						parent.getChildren().get(i).setDisFromStart(parent.getDisFromStart() + parent.getChildrenCost().get(i)); //sets the distance
-						queue.add(parent.getChildren().get(i)); //adds to queue
+						if(!queue.contains(child) && !explored.contains(child))
+						{
+//							System.out.println(child.getPosX() + " , " + child.getPosY());
+							child.setParent(parent); //sets node's parent
+							child.setDisFromStart(child.distanceFrom(startNode));
+							child.setDisFromGoal(child.distanceFrom(goalNode));
+							child.setCost();
+							queue.add(child); //adds to queue
+						}
 					}
 				}
 			}
@@ -114,5 +191,76 @@ public class AStar extends AbstractSearch{
 		}
 		System.out.print(goal);
 		System.out.println();
+	}
+	
+	private void setNodeChildren(Node n) //probably made this more complicated than it has to
+	{
+		int x = n.getPosX(), y=n.getPosY();
+		//edges and their horizontals
+		if(n.getPosX() == 0) //Deals with (0,x)
+		{
+			n.addChild(grid[x + 1][y]); //if(0,0)
+			if(n.getPosY() == 0)
+			{
+				n.addChild(grid[x][y+1]);
+			}
+			else if(n.getPosY() == grid[x].length-1) //if(0,last)
+			{
+				n.addChild(grid[x][y - 1]);
+			}
+			else
+			{
+				n.addChild(grid[x][y - 1]);
+				n.addChild(grid[x][y+1]);
+			}
+		}
+		else if(n.getPosX() == grid.length - 1) //Node [last,x]
+		{
+			n.addChild(grid[x - 1][y]);
+			if(n.getPosY() == 0)
+			{
+				n.addChild(grid[x][y + 1]);
+			}
+			else if(n.getPosY() == grid[x].length-1) //if(0,last)
+			{
+				n.addChild(grid[x][y - 1]);
+			}
+		}
+		else if(n.getPosY() == 0)
+		{
+			n.addChild(grid[x][y + 1]);
+			n.addChild(grid[x - 1][y]);
+			n.addChild(grid[x + 1][y]);
+		}
+		else if(n.getPosY() == grid.length - 1)
+		{
+			n.addChild(grid[x][y - 1]);
+			n.addChild(grid[x - 1][y]);
+			n.addChild(grid[x + 1][y]);
+		}
+		else
+		{
+			n.addChild(grid[x][y + 1]);
+			n.addChild(grid[x][y - 1]);
+			n.addChild(grid[x - 1][y]);
+			n.addChild(grid[x + 1][y]);
+		}
+	}
+	
+	private void printList(Node[][] arr)
+	{
+		for(Node[] a : arr)
+		{
+			for(Node n : a)
+			{
+				if(n != null)
+				{
+					System.out.print("1 ");
+				}
+				else
+					System.out.print("0 ");
+			}
+			System.out.println();
+		}
 	}
 }
