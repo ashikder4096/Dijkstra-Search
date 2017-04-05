@@ -24,14 +24,23 @@ public class AStar extends AbstractSearch{
         AStar aStar = new AStar(start, goal, graph);
         
         Node n = aStar.getGrid()[2][3];
-        Node n2 = aStar.getGrid()[3][3];
-        
-        System.out.println(n.distanceFrom(start));
-        System.out.println(n.distanceFrom(goal));
+        n.setDisFromGoal(n.distanceFrom(goal));
+        n.setDisFromStart(n.distanceFrom(start));
         n.setCost();
+        
+        Node n2 = aStar.getGrid()[3][3];  
+        n2.setDisFromGoal(n2.distanceFrom(goal));
+        n2.setDisFromStart(n2.distanceFrom(start));
+        n2.setCost();
+        
+        System.out.println("n cost: " + n.getCost());
+        System.out.println("n2 cost: " + n2.getCost());
+        System.out.println(Double.compare(n.getCost(), n2.getCost()));
+        
+//        System.out.println(n.distanceFrom(start));
+//        System.out.println(n.distanceFrom(goal));
 //        System.out.println(n2.distanceFrom(start));
 //        System.out.println(n2.distanceFrom(goal));
-//        n2.setCost();
 //        System.out.println(n.getCost());
 //        System.out.println(n2.getCost());
 //        System.out.println(n2.compareTo(n));
@@ -42,6 +51,9 @@ public class AStar extends AbstractSearch{
         	if(child != null)
         	{
         		q.add(child);
+            	child.setDisFromGoal(child.distanceFrom(goal));
+            	child.setDisFromStart(child.distanceFrom(start));
+            	child.setCost();
         		System.out.println(child);
         	}
         }
@@ -49,9 +61,6 @@ public class AStar extends AbstractSearch{
         while(!q.isEmpty())
         {
         	Node re = q.remove();
-        	re.setDisFromGoal(re.distanceFrom(goal));
-        	re.setDisFromStart(re.distanceFrom(start));
-        	re.setCost();
         	System.out.println(re + " " + re.getCost());
         }
 	}
@@ -94,9 +103,9 @@ public class AStar extends AbstractSearch{
 		startNode.setDisFromStart(startNode.distanceFrom(startNode));
 		startNode.setDisFromGoal(startNode.distanceFrom(goalNode));
 		startNode.setCost();
-		goalNode.setDisFromStart(goalNode.distanceFrom(startNode));
-		goalNode.setDisFromGoal(goalNode.distanceFrom(goalNode));
-		goalNode.setCost();
+//		goalNode.setDisFromStart(goalNode.distanceFrom(startNode));
+//		goalNode.setDisFromGoal(goalNode.distanceFrom(goalNode));
+//		goalNode.setCost();
 		
 		/**
 		 * Creating basic map structure
@@ -171,6 +180,7 @@ public class AStar extends AbstractSearch{
 			{
 				printPath(goalNode); //displays the path
 				System.out.println("AStar Search Path Found!");
+				printExplored();
 				return true;
 			}
 			else
@@ -183,7 +193,6 @@ public class AStar extends AbstractSearch{
 					{
 						if(!queue.contains(child) && !explored.contains(child))
 						{
-//							System.out.println(child.getPosX() + " , " + child.getPosY());
 							child.setParent(parent); //sets node's parent
 							child.setDisFromStart(child.distanceFrom(startNode));
 							child.setDisFromGoal(child.distanceFrom(goalNode));
@@ -199,13 +208,16 @@ public class AStar extends AbstractSearch{
 	}
 
 	private void printPath(Node goal) {
+		int count = 0;
 		while(goal.getParent() != null)
 		{
+			count++;
 			System.out.print(goal + " <--- ");
 			goal = goal.getParent();
 		}
 		System.out.print(goal);
 		System.out.println();
+		System.out.println("Total of " + count + " Nodes");
 	}
 	
 	private void setNodeChildren(Node n) //probably made this more complicated than it has to
@@ -259,6 +271,14 @@ public class AStar extends AbstractSearch{
 			n.addChild(grid[x][y - 1]);
 			n.addChild(grid[x - 1][y]);
 			n.addChild(grid[x + 1][y]);
+		}
+	}
+	
+	private void printExplored()
+	{
+		for(Node n : explored)
+		{
+			System.out.println(n);
 		}
 	}
 	
